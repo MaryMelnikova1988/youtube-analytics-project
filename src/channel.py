@@ -6,7 +6,6 @@ from googleapiclient.discovery import build
 # api_key: str = os.getenv('API_KEY')
 # youtube = build('youtube', 'v3', developerKey=api_key)
 
-
 class Channel:
     """Класс для ютуб-канала"""
     def __init__(self, channel_id: str) -> None:
@@ -22,6 +21,25 @@ class Channel:
         self.subscriber_count = self.channel["items"][0]["statistics"]["subscriberCount"]
         self.video_count = self.channel["items"][0]["statistics"]["videoCount"]
         self.view_count = self.channel["items"][0]["statistics"]["viewCount"]
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+    def __add__(self, other):
+        """ Сложение идет по количеству подписчиков """
+        return int(self.subscriber_count) + int(other.subscriber_count)
+    def __sub__(self, other):
+        """вычитание идет по количеству подписчиков."""
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __gt__(self, other):
+        """сравнение идет по количеству подписчиков
+        self > other"""
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        """сравнение идет по количеству подписчиков
+               self >= other"""
+        return int(self.subscriber_count) >= int(other.subscriber_count)
 
     def print_info(self) -> None:
         """Выводит словарь в json-подобном удобном формате с отступами"""
@@ -39,3 +57,5 @@ class Channel:
         """сохраняет в json-файл значения атрибутов экземпляра Channel"""
         with open(file=filename, mode='w', encoding='utf-8') as f:
             json.dump(self.channel, f, indent=4, ensure_ascii=False)
+
+
