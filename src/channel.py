@@ -24,9 +24,11 @@ class Channel:
 
     def __str__(self):
         return f'{self.title} ({self.url})'
+
     def __add__(self, other):
         """ Сложение идет по количеству подписчиков """
         return int(self.subscriber_count) + int(other.subscriber_count)
+
     def __sub__(self, other):
         """вычитание идет по количеству подписчиков."""
         return int(self.subscriber_count) - int(other.subscriber_count)
