@@ -18,7 +18,7 @@ class Channel:
         self.title = self.channel["items"][0]["snippet"]["title"]
         self.description = self.channel["items"][0]["snippet"]["description"]
         self.url = f"https://www.youtube.com/channel/{self.channel_id}"
-        self.subscriber_count = self.channel["items"][0]["statistics"]["subscriberCount"]
+        self.subscriber_count = int(self.channel["items"][0]["statistics"]["subscriberCount"])
         self.video_count = self.channel["items"][0]["statistics"]["videoCount"]
         self.view_count = self.channel["items"][0]["statistics"]["viewCount"]
 
@@ -27,21 +27,36 @@ class Channel:
 
     def __add__(self, other):
         """ Сложение идет по количеству подписчиков """
-        return int(self.subscriber_count) + int(other.subscriber_count)
+        if type(other) == Channel:
+            return self.subscriber_count + other.subscriber_count
+        else:
+            raise TypeError
 
     def __sub__(self, other):
         """вычитание идет по количеству подписчиков."""
-        return int(self.subscriber_count) - int(other.subscriber_count)
+        # return int(self.subscriber_count) - int(other.subscriber_count)
+        if type(other) == Channel:
+            return self.subscriber_count - other.subscriber_count
+        else:
+            raise TypeError
 
     def __gt__(self, other):
         """сравнение идет по количеству подписчиков
         self > other"""
-        return int(self.subscriber_count) > int(other.subscriber_count)
+        # return int(self.subscriber_count) > int(other.subscriber_count)
+        if type(other) == Channel:
+            return self.subscriber_count > other.subscriber_count
+        else:
+            raise TypeError
 
     def __ge__(self, other):
         """сравнение идет по количеству подписчиков
                self >= other"""
-        return int(self.subscriber_count) >= int(other.subscriber_count)
+        # return int(self.subscriber_count) >= int(other.subscriber_count)
+        if type(other) == Channel:
+            return self.subscriber_count >= other.subscriber_count
+        else:
+            raise TypeError
 
     def print_info(self) -> None:
         """Выводит словарь в json-подобном удобном формате с отступами"""
